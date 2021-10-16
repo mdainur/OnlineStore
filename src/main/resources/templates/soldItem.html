@@ -1,0 +1,50 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+
+<div layout:fragment = "site_content">
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-3" th:insert="~{layout/adminMenu}">
+            </div>
+        <div class="col-9">
+                <table class="table table-stripped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th th:text="#{fullname}"></th>
+                        <th th:text="#{label.name}"></th>
+                        <th th:text="#{label.price}"></th>
+                        <th th:text="#{amount}"></th>
+                        <th th:text="#{buyedDate}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="i : ${sold}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.owner}"></td>
+                        <td th:text="${i.item.name}"></td>
+                        <td th:text="${i.item.price}"></td>
+                        <td th:text="${i.amount}"></td>
+                        <td th:text="${i.buyDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+        </div>
+    </div>
+
+        <script type="text/javascript">
+        const saveItem=(id)=>{
+            document.getElementById("id").value=id;
+            document.getElementById("name").value=document.getElementById("name_"+id).value;
+            document.getElementById("logo_URL").value=document.getElementById("logo_URL_"+id).value;
+        }
+    </script>
+
+</div>
+</div>
+</html>

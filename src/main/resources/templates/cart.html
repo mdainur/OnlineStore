@@ -1,0 +1,124 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html">
+
+<div layout:fragment = "site_content">
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-3" th:insert="~{layout/customerMenu}">
+            </div>
+
+            <div class="col-sm-9">
+                <form th:action="@{'/search'}" method="get">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <input class="form-control" type="text" name="name" th:placeholder="#{search}"  aria-label="Search">
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-outline-success btn-block" style="color: white; background-color: #156145" type="submit" th:text="#{search}"></button>
+                        </div>
+                    </div>
+                </form>
+                <br><br>
+
+                <div class="alert alert-danger" role="alert" th:hidden="${error==null}">
+                    <span th:text="#{error}"></span>
+                </div>
+                <div class="alert alert-success" role="alert" th:hidden="${success==null}">
+                    <span th:text="#{success}"></span>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="cart-header">
+                        <h2 th:text="#{cart}"></h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-stripped">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{label.name}"></th>
+                                    <th th:text="#{label.price}"></th>
+                                    <th th:text="#{amount}"></th>
+                                    <th th:text="#{total}"></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="i : ${session.cart}">
+                                    <td th:text="${i.item.name}"></td>
+                                    <td th:text="${i.item.price}"></td>
+                                    <td th:text="${i.amount}"></td>
+                                    <td th:text="${i.item.price * i.amount + ' TG'}"></td>
+                                    <td><a class="btn btn-sm" style="background-color: #156145; font-weight: bold; color: white" th:href="${'/addToCart/' + i.item.id}">+</a></td>
+                                    <td><a class="btn btn-sm" style="background-color: rgba(179,0,0,0.81); color: white; font-weight: bold;" th:href="@{'/deleteFromCart?id=' + ${i.item.id}}">-</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer">
+                            <h5 th:text="#{total} +': ' + ${(total != null && total != 0)? ' ' + total  + ' TG': '0'}"></h5>
+                    </div>
+                    <div class="card-footer">
+                        <div style="float: left">
+                            <a class="btn btn-sm" style="background-color: rgba(179,0,0,0.81); color: white; font-weight: bold; float: right" th:href="@{'/clearAllCart'}"><img style="width: 35px; height: 30px;" src="/icons/delete.png" alt="" th:text="#{clearCart}"></a>
+                        </div>
+                        <div style="float: right;">
+                            <a class="btn btn-sm" data-toggle="modal" data-target="#exampleModal" style="background-color: #156145; color: white; font-weight: bold; float: right"><img style="width: 35px; height: 30px;" src="/icons/checkin.png" alt="" th:text="' '+#{checkIn}"></a>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content" style="width: 36rem">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel" th:text="#{checkIn}">
+                                                </h5>
+                                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                                <form th:action="@{'checkIn'}" method="post">
+                                                    <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label th:text="#{fullname}">
+                                                        </label>
+                                                        <input type="text" class="form-control" name="fullname" required>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label th:text="#{cardNumber}">
+                                                        </label>
+                                                        <input type="text" class="form-control" required>
+                                                    </div>
+                                                    <div class="row">
+                                                    <div class="col-6">
+                                                        <label th:text="#{expiration}">
+                                                        </label>
+                                                        <input type="text" class="form-control" required>
+                                                    </div>
+
+                                                        <div class="col-6">
+                                                            <label th:text="#{cvv}">
+                                                            </label>
+                                                            <input type="text" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-success" th:text="#{pay}"></button>
+                                                        <button type="button"  style="float: left; background-color: #353942" class="btn btn-secondary" th:text="#{exit}"></button>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+    </div>
+</div>
+</html>

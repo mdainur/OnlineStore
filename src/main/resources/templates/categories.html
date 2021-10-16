@@ -1,0 +1,124 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+
+<div layout:fragment = "site_content">
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-3" th:insert="~{layout/adminMenu}">
+            </div>
+
+        <div class="col-9">
+
+            <div class="form-group" style="float: right">
+                <button class="btn btn-success" style="background-color: #156145" data-toggle="modal" data-target="#exampleModal" th:text="#{button.add}">
+                </button>
+            </div>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel" th:text="#{button.add}">
+                            </h5>
+                            <button class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form th:action="@{'addCategory'}" method="post">
+                                <div class="form-group">
+                                    <label th:text="#{label.name }">
+                                    </label>
+                                    <input type="text" class="form-control" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label th:text="#{logo}">
+                                    </label>
+                                    <input type="text" class="form-control" name="logo_URL">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" style="float:right; background-color: #156145" class="btn btn-success" th:text="#{button.add}"></button>
+                                    <button type="button"  style="float: left; background-color: #353942" class="btn btn-secondary" th:text="#{exit}"></button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel1" th:text="#{edit}">
+                                </h5>
+                                <button class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form th:action="@{'/saveCategory'}" method="post">
+                                    <input type="hidden" class="form-control" name="id" id="id">
+                                    <div class="form-group">
+                                        <label th:text="#{label.name }">
+                                        </label>
+                                        <input type="text" class="form-control" name="name" id="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label th:text="#{logo}">
+                                        </label>
+                                        <input type="text" class="form-control" name="logo_URL" id="logo_URL">
+                                    </div>
+                                    <div class="form-group">
+                                        <button type="submit" style="float:right; background-color: #156145" class="btn btn-success" th:text="#{edit}"></button>
+                                        <button type="button"  style="float: left; background-color: #353942" class="btn btn-secondary" th:text="#{exit}"></button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <table class="table table-stripped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th th:text="#{label.name}"></th>
+                        <th th:text="#{logo}"></th>
+                        <th th:text="#{edit}"></th>
+                        <th th:text="#{delete}"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="i : ${categories}">
+                        <input type="hidden" th:id="${'name_'+i.id}" th:value="${i.name}">
+                        <input type="hidden" th:id="${'logo_URL_'+i.id}" th:value="${i.logo_URL}">
+                        <td th:text="${i.id}"></td>
+                        <td th:text="${i.name}"></td>
+                        <td th:text="${i.logo_URL}"></td>
+                        <td><button th:data-id="${i.id}" onclick="saveItem(this.getAttribute('data-id'))" class="btn btn-secondary btn-sm" style="background-color: #868c95; color: white" data-toggle="modal" data-target="#editModal">
+                            <img style="width: 35px; height: 30px;" src="/icons/edit.png" alt="">
+                        </button>
+                        </td>
+                        <td><a th:href="@{'/deleteCategory?id=' + ${i.id}}" class="btn btn-danger btn-sm" style="background-color: rgba(179,0,0,0.81); color: white;"><img style="width: 35px; height: 30px;" src="/icons/delete.png"  alt=""></a></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <script type="text/javascript">
+            const saveItem=(id)=>{
+                document.getElementById("id").value=id;
+                document.getElementById("name").value=document.getElementById("name_"+id).value;
+                document.getElementById("logo_URL").value=document.getElementById("logo_URL_"+id).value;
+            }
+        </script>
+
+    </div>
+</div>
+</html>

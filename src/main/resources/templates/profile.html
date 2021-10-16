@@ -1,0 +1,71 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html">
+
+<div layout:fragment = "site_content">
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-sm-3" th:insert="~{layout/customerMenu}">
+        </div>
+    <div class="col-sm-9">
+        <div class="row">
+            <div class="col-6 offset-3">
+            <img th:src="@{'/viewAvatar/'+${currentUser.pictureURL}}"  style="width: 100%;" class="my-3" alt="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6 offset-3">
+                <form th:action="@{'/uploadAvatar'}" method="post" enctype="multipart/form-data">
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="customFile" name="userAva">
+                    <label for="customFile" class="custom-file-label" th:text="#{chooseFile}"></label>
+<!--                    <label for="exampleFormControlFile1" th:text="#{choose}"></label>-->
+<!--                    <input type="file" class="form-control-file" id="exampleFormControlFile1">-->
+                    <button class="btn btn-success bnt-sm mt-2" style="background-color: #156145; float: right" th:text="#{uploadFile}"></button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-6 offset-3">
+            <form th:action="@{'/updateProfile'}" method="post">
+                <div class="form-group">
+                    <label th:text="#{email}"></label>
+                    <input type="email" name="userEmail" th:value="${currentUser.email}" class="form-control" disabled>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{fullname}"></label>
+                    <input type="text" name="userFullname" th:value="${currentUser.fullname}" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-sm" style="background-color: #156145; float: right" th:text="#{updateProfile}"></button>
+                </div>
+            </form>
+            <br>
+            <form th:action="@{'/updatePassword'}" method="post">
+                <input type="hidden" th:value="${currentUser.email}" name="email">
+                <div class="form-group">
+                    <label th:text="#{oldPassword}"></label>
+                    <input type="password" name="oldPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{newPassword}"></label>
+                    <input type="password" name="newPassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label th:text="#{rePassword}"></label>
+                    <input type="password" name="rePassword" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-sm" style="background-color: #156145; float: right" th:text="#{updatePassword}"></button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</html>

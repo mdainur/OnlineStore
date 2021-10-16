@@ -1,0 +1,14 @@
+<div xmlns:th = "http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+    <br>
+    <ul class="list-group">
+        <li sec:authorize="(hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR'))" class="list-group-item" style="background-color: #353942;"><a style="color: white; font-size: 25px" th:href="@{'/admin'}" th:text="#{dashboard}"></a></li>
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/users'}"><img style="width: 30px; height: 30px;" src="/icons/users.png" alt="" th:text="#{users}"></a></li>
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/roles'}"><img th:text="' ' + #{roles}" style="width: 30px; height: 30px;" src="/icons/roles.png" alt=""></a></li>
+        <li sec:authorize="(hasAnyRole('ROLE_ADMIN', 'ROLE_MODERATOR'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/admin'}"><img th:text="' ' + #{all_items}" style="width: 30px; height: 30px;" src="/icons/basket.png" alt=""></a></li>
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/countries'}"><img th:text="' ' + #{countries}" style="width: 30px; height: 30px;" src="/icons/countries.png" alt=""></a></li>
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/brands'}"><img th:text="' ' + #{brands}" style="width: 30px; height: 30px;" src="/icons/brands.png" alt=""></a></li>
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/categories'}"><img th:text="' ' + #{categories}" style="width: 30px; height: 30px;" src="/icons/categories.png" alt=""></a></li>
+
+        <li sec:authorize="(hasRole('ROLE_ADMIN'))" class="list-group-item" style="background-color: #156145; color: white"><a style="color: white" th:href="@{'/soldItem'}"><img th:text="' ' + #{soldItem}" style="width: 30px; height: 30px;" src="/icons/sold.png" alt=""></a></li>
+    </ul>
+</div>

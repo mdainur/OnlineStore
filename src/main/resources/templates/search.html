@@ -1,0 +1,89 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html">
+
+<div layout:fragment = "site_content">
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-3" th:insert="~{layout/customerMenu}">
+            </div>
+            <div class="col-sm-9">
+<form th:action="@{'/search'}" method="get">
+    <div class="row">
+        <div class="col-sm-3">
+            <label th:text="#{label.name}"></label>
+            <input class="form-control" type="text" name="name" th:placeholder="#{search}"  aria-label="Search">
+        </div>
+        <div class="col-sm-2">
+            <label th:text="#{brands}"></label>
+            <select class="form-control" name="brand_id">
+                <option value="0"></option>
+                <option th:each="brand : ${brands}" th:text="${brand.name}" th:value="${brand.id}"></option>
+            </select>
+        </div>
+        <div class="col-sm-2">
+            <label th:text="#{price_from}"></label>
+            <input type="double" name="price_from" class="form-control">
+        </div>
+
+        <div class="col-sm-2">
+            <label th:text="#{price_to}"></label>
+            <input type="double" name="price_to" class="form-control">
+        </div>
+
+        <div class="col-sm-3">
+            <label style="color: white">qwerty</label>
+            <button class="btn btn-outline-success btn-block" name="search_type" value="between" style="color: white; background-color: #156145" type="submit" th:text="#{search}"></button>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-4">
+        <label><strong style="float: left" th:text="#{search_result}"></strong></label>
+        </div>
+<!--                        <div class="col-sm-5" style="float: right"></div>-->
+        <div class="col-sm-8">
+        <div class="btn-group btn-group-toggle" style="float: right">
+            <label style="font-weight: bold" th:text="#{order_by_price}"></label>
+            <label style="color: white; font-weight: bold;">O</label>
+            <label>
+                <button href="/search" class="btn btn-secondary active" type="radio" name="search_type" value="ascending" style="color: white" checked th:text="#{ascending}"></button>
+            </label>
+            <label>
+                <button href="/search" class="btn btn-secondary active" type="radio" name="search_type" value="descending" style="color: white" th:text="#{descending}"></button>
+            </label>
+        </div>
+        </div>
+    </div>
+</form>
+                <br>
+                <div class="row row-cols-1 row-cols-md-3 mt-3">
+                    <div class="col mb-3" th:each="i:${search_items}">
+                        <div class="card">
+                            <a th:href="@{'/details/' + ${i.id}}"><img style="height: 8rem" th:src="${i.smallPictureUrl}" class="card-img-top" alt="..."></a>
+                            <div class="card-body">
+                                <a th:href="@{'/details/' + ${i.getId()}}"><h5 class="card-title" th:text="${i.name}"></h5></a>
+                                <h5 class="card-title" th:text="${i.price + ' TG'}"></h5>
+                                <p class="card-text" style="font-weight: bold" th:text="#{description} + ': ' + ${i.description}"></p>
+
+                                <td><strong th:text="#{brand} + ': '"></strong></td>
+                                <td><a th:href="@{'/search?brand_id=' + ${i.brand.id}}"><strong th:text="${i.brand.country!=null? i.brand.name + ', ' + i.brand.country.code : '-'}"></strong></a></td>
+
+                            </div>
+                            <div class="card-footer">
+                                <img style="height: 15px;width: 15px;margin-left: 3px" src="icons/star_y.png" th:each="i : ${#numbers.sequence(0,i.getStars()-1,1)}" class="card-img-top" alt="...">
+                                <img style=" height: 15px;width: 15px;margin-left: 3px" src="icons/star.png" th:each="i:${#numbers.sequence(0,5 -(i.getStars())-1,1)}" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-footer" style="width: 12rem">
+                                <a class="btn btn-block" style="background-color: gold; color: black" th:href="${'/addToCart/' + i.id}"><span style="font-weight: bold" th:text="#{addToCart}"></span><img style="width: 30px; height: 30px;" src="/icons/cart_other.png" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

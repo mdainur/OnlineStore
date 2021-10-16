@@ -1,0 +1,37 @@
+<div xmlns:th = "http://www.thymeleaf.org" xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+<!--    <ul class="list-group">-->
+<!--        <li class="list-group-item" style="background-color: #156145; color: white"><strong>Labs</strong></li>-->
+<!--        <li class="list-group-item"><img style="height: 30px;width: 30px;" src="/icons/notebook.png" alt=""><a th:href="@{'/'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link">Lab #1</a></li>-->
+<!--        <li class="list-group-item"><img style="height: 30px;width: 30px;" src="/icons/notebook.png" alt=""><a th:href="@{'/'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link">Lab #2</a></li>-->
+<!--        <li class="list-group-item"><img style="height: 30px;width: 30px;" src="/icons/notebook.png" alt=""><a th:href="@{'/'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link">Lab #3</a></li>-->
+<!--        <li class="list-group-item"><img style="height: 30px;width: 30px;" src="/icons/notebook.png" alt=""><a th:href="@{'/'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link">Lab #4</a></li>-->
+<!--    </ul>-->
+    <ul class="list-group">
+        <li class="list-group-item" style="background-color: #156145; color: white"><strong th:text="#{categories}"></strong></li>
+        <li class="list-group-item"><img style="height: 20px;width: 20px;" src="/icons/cart_other.png" alt=""><a th:href="@{'/list_items'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link" th:text="#{other}"></a></li>
+    </ul>
+    <ul class="list-group" th:each="c: ${categories}">
+        <li class="list-group-item"><img style="height: 20px;width: 20px;" th:src="${c.logo_URL}" alt=""><a th:href="@{'/list_items'}" style="margin-left: 10px; color: black; font-weight: bold; font-size: 15px" class="link" th:text="${c.name}"></a></li>
+    </ul>
+    <br>
+
+    <ul class="list-group">
+        <li class="list-group-item" style="background-color: #156145; color: white"><strong th:text="#{brands}"></strong></li>
+        <a th:each="b: ${brands}" class="list-group-item" style="margin-left: 5px; color: black; font-weight: bold; font-size: 15px" th:href="@{'/search?brand_id=' + ${b.id}}" th:text="${b.name}"></a>
+    </ul>
+    <br>
+    <ul class="list-group">
+        <li class="list-group-item" style="background-color: #156145; color: white"><h5><strong th:text="#{payments}"></strong></h5></li>
+        <li class="list-group-item">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard6.png" alt="">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard5.png" alt="">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard3.png" alt="">
+        </li>
+        <li class="list-group-item">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard3.png" alt="">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard2.png" alt="">
+            <img href="/" style="height: 60px;width: 60px;" src="/icons/paycard1.png" alt="">
+        </li>
+    </ul>
+    <br>
+</div>

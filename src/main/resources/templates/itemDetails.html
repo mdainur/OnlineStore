@@ -1,0 +1,168 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html"
+      xmlns:sec = "http://www.thymeleaf.org/extras/spring-security">
+
+<div layout:fragment = "site_content">
+
+    <div class="container">
+        <div class="row mt-3">
+            <div class="col-sm-3" th:insert="~{layout/adminMenu}">
+            </div>
+        <div class="col-9">
+                <div class="row-mt-5">
+                    <form th:action="@{'/saveItem'}" method="post">
+                        <input type="hidden" class="form-control" name="id" th:value="${item.id}" >
+                        <div class="form-group">
+                            <label th:text="#{label.name }">
+                            </label>
+                            <input type="text" class="form-control" name="name" th:value="${item.name}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{description}">
+                            </label>
+                            <input type="text" class="form-control" name="description" th:value="${item.description}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{label.price}">
+                            </label>
+                            <input type="double" class="form-control" name="price" th:value="${item.price}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{brand}">
+                            </label>
+                            <select class="form-control" name="brand_id" th:value="${item.brand.id}">
+                                <option th:each="brand : ${brands}" th:text="${brand.name}" th:value="${brand.id}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{stars}">
+                            </label>
+                            <input type="text" class="form-control" min="0" max="5" name="stars" th:value="${item.stars}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{small_picture_url}">
+                            </label>
+                            <input type="text" class="form-control" name="small_picture_url" th:value="${item.smallPictureUrl}">
+                        </div>
+
+                        <div class="form-group">
+                            <label th:text="#{large_picture_url}">
+                            </label>
+                            <input type="text" class="form-control" name="large_picture_url" th:value="${item.largePictureUrl}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{added_date}">
+                            </label>
+                            <input type="date" class="form-control" name="added_date" th:value="${item.addedDate}">
+                        </div>
+                        <div class="form-group">
+                            <label th:text="#{in_top_page}"></label>
+                            <select class="form-control" name="in_top_page" th:value="${item.inTopPage}">
+                                <option value="true" th:text="#{yes}"></option>
+                                <option value="false" th:text="#{no}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-sm" style="background-color: #156145; color: white; float: right"><img style="width: 25px; height: 25px;" th:text="#{save}" src="/icons/save.png" alt=""></button>
+                            <a th:href="@{'/delete?id=' + ${item.id}}" class="btn btn-danger btn-sm" style="float: left; background-color: rgba(179,0,0,0.81); color: white;"><img style="width: 25px; height: 25px;" src="/icons/delete.png" alt=""></a>
+                        </div>
+                    </form>
+                </div>
+            <br>
+            <br>
+
+                <div class="row-mt-5">
+                    <label style="font-size: 25px; font-weight: bold" th:text="#{categories}"></label>
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr th:each="cat : ${itemCategories}">
+                                <form th:action="@{'/cleanCategory'}" method="post">
+                                    <input type="hidden" th:value="${item.id}" name="item_id">
+                                    <input type="hidden" th:value="${cat.id}" name="category_id">
+                                    <td th:text="${cat.name}"></td>
+                                    <td width="10%">
+                                        <button class="btn btn-secondary" style="background-color: rgba(179,0,0,0.81); color: white;">-</button>
+                                    </td>
+                                </form>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr th:each="c : ${unUsed}">
+                                <form th:action="@{'/assignCategory'}" method="post">
+                                    <input type="hidden"  name="item_id" th:value="${item.id}">
+                                    <input type="hidden" th:value="${c.id}" name="category_id">
+                                    <td th:text="${c.name}"></td>
+                                    <td width="10%">
+                                        <button class="btn btn-success" style="background-color: #156145">+</button>
+                                    </td>
+                                </form>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                </div>
+            <br>
+            <br>
+            <div class="row-mt-5">
+                <label style="font-size: 25px; font-weight: bold" th:text="#{pictures}"></label>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="10%" th:text="#{pictures}"></th>
+                        <th th:text="#{picture_url}"></th>
+                        <th width="20%" th:text="#{added_date}"></th>
+                        <th width="10%"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cat : ${pictures}">
+                        <td>
+                            <div class="card" style="width: 50px; height: 50px;"><img th:src="@{'/viewItemPicture/' + ${cat.url}}" style="padding: 5px; width: 50px; height: 50px" class="" alt=""></div></td>
+                        <td th:text="${cat.url}"></td>
+                        <td th:text="${cat.addedDate}"></td>
+                        <td> <a th:href="@{'deleteItemPicture?picture_id=' + ${cat.id}}" class="btn btn-secondary" style="background-color: #353942">-</a></td>
+                    </tr>
+                    </tbody>
+                    <tfooter>
+                    <a class="btn btn-sm btn-block" data-toggle="modal" data-target="#exampleModal" style="background-color: rgba(186,0,0,0.83); color: white; font-weight: bold;" th:text="#{uploadFile}"></a>
+                    </tfooter>
+                </table>
+                </div>
+        </div>
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" th:text="#{button.add}">
+                        </h5>
+                        <button class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <form th:action="@{'/uploadItemPicture'}" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" name="item_picture">
+                                <input type="hidden" name="item_id" th:value="${item.id}">
+                                <label class="custom-file-label" for="customFile" th:text="#{chooseFile}"></label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" th:text="#{button.add}"></button>
+                            <button type="button"  style="float: left; background-color: #353942" class="btn btn-secondary" th:text="#{exit}"></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</html>

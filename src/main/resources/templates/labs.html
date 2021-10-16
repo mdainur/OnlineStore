@@ -1,0 +1,261 @@
+<html xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout = "http://ultraq.net.nz/thymeleaf/layout"
+      layout:decorator = "layout/main.html">
+
+<div layout:fragment = "site_content">
+    <br>
+    <div class="container">
+        <div class="col-sm-12">
+            <!------------------Lab-1 - Encryption------------------>
+            <div class="center rounded-pill" style="background-color: rgb(62,66,77); color: white">
+                <h3 class="text-center">Lab Work № 1</h3>
+                <h4 class="text-center">Basics of Encryption Algorithms</h4>
+            </div>
+            <br>
+            <div class="card" style="background-color: rgba(255,216,0,0.54)">
+                <br>
+                <h3 class="text-center">Encryption</h3>
+                <form th:action="@{'/encode'}" method="post">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label>Enter Text:</label>
+                                <input class="form-control" type="text" name="given_text" placeholder="Text to Encrypt"  aria-label="Search">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Enter Key:</label>
+                                <input class="form-control" type="text" name="shift"  aria-label="Search" placeholder="Key">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!--                            <div class="btn-group btn-group-toggle" style="float: right">-->
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type" value="Caesar" style="color: white; float: right" checked>Caesar</button>
+                        </label>
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type" value="Vigenere" style="color: white; float: right">Vigenere</button>
+                        </label>
+                        <label class="center-pill">
+                            <button  th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type" value="Playfair" style="color: white; float: right">PlayFair</button>
+                        </label>
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type" value="Transposition" style="color: white; float: right">Transposition</button>
+                        </label>
+                        <!--                            </div>-->
+                    </div>
+                </form>
+                <div class="card-footer" th:hidden="${encrypted == null}">
+                    <div class="row">
+                        <div class="col-6">
+                            <Label>Given Text: <span style="color: black; font-weight: bold" th:text="${given}"></span></Label>
+                        </div>
+                        <div class="col-6">
+                            <Label>Choosen Crypto-Type: <span style="color: black; font-weight: bold" th:text="${typeShift}"></span></Label>
+                        </div>
+                    </div>
+                    <h4>Result: <span style="color: black; font-weight: bold" th:text="${encrypted}"></span></h4>
+                </div>
+            </div>
+            <br>
+            <br>
+            <!------------------Lab-1 - Decryption------------------>
+            <div class="card" style="background-color: rgba(220,165,6,0.52)">
+                <br>
+                <h3 class="text-center">Decrytion</h3>
+                <form th:action="@{'/decode'}" method="post">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label>Enter Text:</label>
+                                <input class="form-control" type="text" name="given_text_decrypt" placeholder="Text to Encrypt"  aria-label="Search">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Enter Key:</label>
+                                <input class="form-control" type="text" name="shift_decrypt" aria-label="Search" placeholder="Key">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <!--                            <div class="btn-group btn-group-toggle" style="float: right">-->
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type_decrypt" value="Caesar" style="color: white; float: right" checked>Caesar</button>
+                        </label>
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type_decrypt" value="Vigenere" style="color: white; float: right">Vigenere</button>
+                        </label>
+                        <!--                            <label class="center-pill">-->
+                        <!--                                <button  th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type_decrypt" value="Playfair" style="color: white; float: right">PlayFair</button>-->
+                        <!--                            </label>-->
+                        <label class="center-pill">
+                            <button th:href="@{'/'}" class="btn btn-secondary active" type="radio" name="shift_type_decrypt" value="Transposition" style="color: white; float: right">Transposition</button>
+                        </label>
+                        <!--                            </div>-->
+                    </div>
+                </form>
+                <div class="card-footer" th:hidden="${decrypted == null}">
+                    <div class="row">
+                        <div class="col-6">
+                            <Label>Given Text: <span style="color: black; font-weight: bold" th:text="${given_decrypt}"></span></Label>
+                        </div>
+                        <div class="col-6">
+                            <Label>Choosen Crypto-Type: <span style="color: black; font-weight: bold" th:text="${typeShift_decrypt}"></span></Label>
+                        </div>
+                    </div>
+                    <h4>Result: <span style="color: black; font-weight: bold" th:text="${decrypted}"></span></h4>
+                </div>
+            </div>
+            <br><br>
+            <!------------------BLowFish------------------>
+            <div class="center rounded-pill" style="background-color: rgb(62,66,77); color: white">
+                <h3 class="text-center">Lab Work № 2</h3>
+                <h4 class="text-center">Symmetric Encryption algorithms. Blowfish Cipher</h4>
+            </div>
+            <br>
+            <div class="card" style="background-color: rgba(194,142,11,0.65)">
+                <br> <h3 class="text-center">BlowFish Encryption</h3>
+                <form th:action="@{'/encryptBlowfish'}" method="post" style="margin-block-end: auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label>Enter Text:</label>
+                                <input class="form-control" type="text" name="text" placeholder="Text to Encrypt">
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Enter Key:</label>
+                                <input type="text" name="key" class="form-control" placeholder="Key">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12">
+                            <button class="btn btn-secondary btn-block" type="submit">Encrypt</button>
+                        </div>
+                    </div>
+
+                    <div class="card-footer" th:hidden="${encrypt_blowfish == null}">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Given text:</label>
+                                <input th:value="${name!=null?name:''}" class="form-control" disabled/>
+                            </div>
+                            <div class="col-6">
+                                <label>Encrypted Result:</label>
+                                <input th:value="${encrypt_blowfish!=null?encrypt_blowfish:''}" class="form-control" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label>Decrypted Result:</label>
+                            <input th:value="${decrypt_blowfish!=null?decrypt_blowfish:''}" class="form-control" disabled/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br><br>
+            <!------------------RSA-RSA-RSA------------------>
+            <div class="center rounded-pill" style="background-color: rgb(62,66,77); color: white">
+                <h3 class="text-center">Lab Work № 3</h3>
+                <h4 class="text-center">Asymmetric Encryption algorithms. RSA Cipher</h4>
+            </div>
+            <br>
+            <div class="card" style="background-color: rgba(128,128,0,0.7)">
+                <br> <h3 class="text-center">RSA Encryption and Decryption</h3>
+                <form th:action="@{'/encryptRsa'}" method="post" style="margin-block-end: auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-7">
+                                <label>Given Text:</label>
+                                <input class="form-control" name="text" placeholder="Enter to Encrypt">
+                            </div>
+                            <div class="col-2">
+                                <label>Enter p:</label>
+                                <input class="form-control" type="int" name="p" placeholder="p">
+                            </div>
+                            <div class="col-2">
+                                <label>Enter q:</label>
+                                <input class="form-control" type="int" name="q" placeholder="q">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-sm-12">
+                            <button class="btn btn-secondary btn-block" type="submit">Encrypt</button>
+                        </div>
+                    </div>
+                    <div class="card-footer" th:hidden="${encrypted_rsa == null}">
+                        <div class="row">
+                            <div class="col-6">
+                                <label>Given text:</label>
+                                <input th:value="${given_text_rsa!=null?given_text_rsa:''}" class="form-control" disabled/>
+                            </div>
+                            <div class="col-6">
+                                <label>Ecrypted Text::</label>
+                                <input th:value="${encrypted_rsa!=null?encrypted_rsa:''}" class="form-control" disabled/>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label>Decrypted Text::</label>
+                            <input th:value="${result_rsa!=null?result_rsa:''}" class="form-control" disabled/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br><br>
+            <!------------------Lab-4 - Diffie-Hellman------------------>
+            <div class="center rounded-pill" style="background-color: rgb(62,66,77); color: white">
+                <h3 class="text-center">Lab Work № 4</h3>
+                <h4 class="text-center">Diffie-Hellman algorithms</h4>
+            </div>
+            <br>
+            <div class="card" style="background-color: rgba(184,134,11,0.6);">
+                <form th:action="@{'/helmanEncrypt'}" method="post" style="margin-block-end: auto">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <label>Enter p:</label>
+                                <input class="form-control" type="text" name="p" th:placeholder="${p_result}">
+                            </div>
+                            <div class="col-2">
+                                <label>Enter g:</label>
+                                <input class="form-control" type="text" name="g" th:placeholder="${g_result}">
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <label>User 1 enters Random Key:</label>
+                                <input class="form-control" type="text" name="private_key_1">
+                            </div>
+                            <div class="col-4">
+                                <label>User 2 enters Random Key:</label>
+                                <input class="form-control" type="text" name="private_key_2">
+                            </div>
+                            <div class="col-4">
+                                <label>User 3 enters Random Key:</label>
+                                <input class="form-control" type="text" name="private_key_3">
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <button class="btn btn-secondary btn-block" type="submit">Check</button>
+                        </div>
+                    </div>
+                    <div class="card-footer" th:hidden="${secret == null}">
+                        <h6>User_1 sends g^a "<span style="font-weight: bold" th:text="${A}"></span>" to User_2</h6>
+                        <h6>User_2 sends g^b "<span style="font-weight: bold" th:text="${B}"></span>" to User_3</h6>
+                        <h6>User_3 sends g^c "<span style="font-weight: bold" th:text="${C}"></span>" to User_1</h6>
+
+                        <h6>User_1 sends (g^c)^a "<span style="font-weight: bold" th:text="${CA}"></span>" to User_2</h6>
+                        <h6>User_2 sends (g^a)^b "<span style="font-weight: bold" th:text="${AB}"></span>" to User_3</h6>
+                        <h6>User_3 sends (g^b)^c "<span style="font-weight: bold" th:text="${BC}"></span>" to User_1</h6>
+
+                        <h6>User_1 sends ((g^b)^c)^a "<span style="font-weight: bold" th:text="${CA_AB}"></span>" to User_2</h6>
+                        <h6>User_2 sends ((g^c)^a)^b "<span style="font-weight: bold" th:text="${AB_BC}"></span>" to User_3</h6>
+                        <h6>User_3 sends ((g^a)^b)^c "<span style="font-weight: bold" th:text="${BC_CA}"></span>" to User_1</h6>
+
+                        <h4>Finally, Secret key: <span style="font-weight: bold" th:text="${secret == null?'':secret}"></span></h4>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</html>
